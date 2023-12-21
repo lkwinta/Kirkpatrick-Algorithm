@@ -19,7 +19,7 @@ Następnie uruchom:
 python3 setup.py sdist
 python3 -m pip install -e .
 ```
-Otwórz Jupyter Notebook z listy programów w Conda Navigator, pamiętaj, żeby na górze zaznaczyć Twoje środowisko (bit-alg). Jeśli nie znajduje modułu bit-alg spróbój zrestartować środowisko i jupytera:
+Otwórz Jupyter Notebook z listy programów w Conda Navigator, pamiętaj, żeby na górze zaznaczyć Twoje środowisko (kirkpatrick). Jeśli nie znajduje modułu kirkpatrick spróbój zrestartować środowisko i jupytera:
 ```
 conda deactivate
 conda activate kirkpatrick
