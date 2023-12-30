@@ -3,7 +3,7 @@
 Najpierw sklonuj repozytorium będąc w folderze do którego chcesz je sklonować, na przykład za pomocą:
 
 ```
-git clone https://github.com/aghbit/Algorytmy-Geometryczne.git
+git clone https://github.com/lkwinta/Kirkpatrick-Algorithm.git
 ```
 
 Pobierz Anacondę, odpal Anaconda Prompt i przejdź do folderu Algorytmy-Geometryczne, tam stwórz środowisko:
