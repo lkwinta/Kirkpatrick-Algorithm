@@ -57,7 +57,7 @@ kirkpatrick.preprocess()
 Samą lokalizację punktu wywołujemy przez funkcję `query`, która przyjmuje krotkę ze współrzędnymi punktu do lokalizacji, a zwraca obiekt `Triangle` z biblioteki `planegeometry` jako zlokalizowany
 trójkąt.
 ```py
-found_triangle = kirkpatrick.preprocess((3, 5.5))
+found_triangle = kirkpatrick.query((3, 5.5))
 ```
 Listę wszystkich trójkątów można otrzymać funkcją `get_triangles()`.
 ```py
