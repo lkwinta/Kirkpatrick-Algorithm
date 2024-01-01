@@ -6,8 +6,18 @@ import mapbox_earcut as earcut
 import numpy as np
 from kirkpatrick_algorithm.visualizer.main import Visualizer
 
-class Kirkpatrick_with_vis: 
+class KirkpatrickVisualization: 
     def __init__(self, polygon: List[tuple[float, float]]):
+        """
+            Konstruktor klasy Kirkpatrick. Inicjalizuje wszystkie pola potrzebne do działania biblioteki.
+            Dodaje zewnętrzny trójkąt, następnie wykonuje triangulację Delaunaya, a na końcu konwertuje
+            wielokąt do postaci listy sąsiedztwa.
+
+            Parmeters
+            ---------
+                polygon: `List[tuple[float, float]]`
+                    lista krotek oznaczających współrzędne kolejnych punktów wielokąta
+        """
         self.__original_polygon = polygon
 
         outer_triangle = self.__add_outer_triangle(polygon)
@@ -30,6 +40,18 @@ class Kirkpatrick_with_vis:
         self.polygon = polygon
     
     def __add_outer_triangle(self, polygon: List[tuple[float, float]]) -> List[tuple[float, float]]:
+        """
+            Oblicza współrzędne wierzchołków trójkąta zawierającego wszystkie punkty wielokąta
+
+            Parameters
+            ----------
+                polygon: `List[tuple[float, float]]`
+                    lista krotek oznaczających współrzędne kolejnych punktów wielokąta
+
+            Returns
+            -------
+                `List[tuple[float, float]]`: lista wierzchołków zewnętrznego trójkąta
+        """
         min_x = min(polygon, key=lambda p: p[0])[0]
         max_x = max(polygon, key=lambda p: p[0])[0]
         min_y = min(polygon, key=lambda p: p[1])[1]
@@ -53,6 +75,18 @@ class Kirkpatrick_with_vis:
         return [(max_x + shift, min_y),(min_x - shift, min_y), ((max_x - min_x)/2 + min_x, H)]
     
     def __get_planar_map(self, delaunay: Delaunay) -> PlanarMap:
+        """
+        Konwertuje striangulowany wielokąt do postaci listy sąsiedztwa w obiekcie typu `PlanarMap`
+
+        Parameters
+        ----------
+            delaunay: `Delaunay`
+                striangulowany wielokąt w obiekcie typu `Delaunay` z biblioteki `SciPy` 
+
+        Returns
+        -------
+            `PlanarMap`: reprezentacja wielokąta za pomocą listy sąsiedztwa
+        """
         set_of_edges = set()
         points = [Point(p[0], p[1]) for p in delaunay.points]
 
@@ -72,6 +106,17 @@ class Kirkpatrick_with_vis:
         return dcel_map
     
     def __get_independent_set(self) -> List[Point]:
+        """
+        Oblicza zbiór niezależnych punktów z wielokąta
+        
+        Parameters
+        ----------
+            `None`
+
+        Returns
+        -------
+            `List[Point]`: lista punktów tworzących zbiór niezależny
+        """
         visited = set()
         independent_set = []
 
@@ -85,6 +130,20 @@ class Kirkpatrick_with_vis:
         return independent_set
     
     def __remove_independent_set(self, indepndent_set: List[Point]) -> (List[List[Point]], int, List[List[Triangle]]):
+        """
+        Usuwa zbiór niezależnych punktów z wielokąta
+        
+        Parameters
+        ----------
+            indepndent_set: `List[Point]`
+                lista punktów tworzących zbiór niezależnych punktów
+
+        Returns
+        -------
+            `List[List[Point]]`: lista punktów tworzących dziurę powstałą przez 
+            'int': ilość usuniętych wierzchołków
+            `List[List[Triangle]]`: lista usuniętych trójkątów
+        """
         holes = []
         removed_triangles = []
         deleted_nodes = 0
@@ -103,6 +162,20 @@ class Kirkpatrick_with_vis:
         return holes, deleted_nodes, removed_triangles
     
     def __triangle_intersect(self, t1: Triangle, t2: Triangle) -> bool:
+        """
+        Sprawdza czy dwa tójkąty nakładają się na siebie
+        
+        Parameters
+        ----------
+            t1: `Triangle`
+                pierwszy trójkąt
+            t2: `Triangle`
+                drugi trójkąt
+
+        Returns
+        -------
+            `bool`: wartość logiczna mówiąca czy trójkąty mają część wspólną
+        """
         for t1_segment in t1.itersegments():
             for t2_segment in t2.itersegments():
                 if t1_segment.intersect(t2_segment):
@@ -111,6 +184,21 @@ class Kirkpatrick_with_vis:
         return False
 
     def preprocess(self):
+        """
+        Przetwarza wielokąt budując drzewo przeszukiwania
+        
+        Parameters
+        ----------
+            `None`
+
+        Returns
+        -------
+            `None`
+        
+        Raises
+        ------
+            `Exception` jeśli próbowano wywyołać przetwarzanie więcej niż raz
+        """
         if self.__preproccessed:
             raise Exception("Already preproccessed")
         
@@ -153,9 +241,35 @@ class Kirkpatrick_with_vis:
         self.__preproccessed = True
     
     def get_triangles(self) -> List[Triangle]:
+        """
+        Zwraca listę striangulowanych trójkątów
+        
+        Parameters
+        ----------
+            `None`
+        Returns
+        -------
+            `List[Triangle]`: lista wszystkich trójkątów po pierwszej triangulacji
+        """
         return self.__triangles_list
 
     def query(self, point: (float, float)) -> Triangle:
+        """
+        Przeszukuje drzewo trójkątów
+        
+        Parameters
+        ----------
+            point: `(float, float)`
+                Punkt do przeszukiwań
+
+        Returns
+        -------
+            `Triangle`: Znaleziony trójkąt
+
+        Raises
+        ------
+            `Exception`: jeśli próbowano wywyołać przeszukiwanie bez wcześniejszego przetworzenia
+        """
         if not self.__preproccessed:
             raise Exception("Polygon is not preproccessed")
         
@@ -174,6 +288,25 @@ class Kirkpatrick_with_vis:
         return current
     
     def query_with_show(self, point: (float, float)):
+        """
+        Przeszukuje drzewo trójkątów, i rysuje wynik zawierający:
+            - przeszukiwany punkt 
+            - wielokąt z zewnętrznym trójkątem i triangulacją
+            - podświetlony na żółto znaleziony trójkąt
+        
+        Parameters
+        ----------
+            point: `(float, float)`
+                Punkt do przeszukiwań
+
+        Returns
+        -------
+            `None`
+
+        Raises
+        ------
+            `Exception`: jeśli próbowano wywyołać przeszukiwanie bez wcześniejszego przetworzenia
+        """
         vis = Visualizer()
         t = self.query(point)
         if t is not None:
