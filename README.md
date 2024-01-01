@@ -68,7 +68,7 @@ Można też skorzystać z funkcji `query_with_show`, która lokalizuje punkt ora
 ```py
 kirkpatrick.query_with_show((3, 5))
 ```
-![Wizualizacja generowana przez powyższy kod](query_example.png#center)
+![Wizualizacja generowana przez powyższy kod](images/query_example.png#center)
 
 # Żródła
 https://ics.uci.edu/~goodrich/teach/geom/notes/Kirkpatrick.pdf
