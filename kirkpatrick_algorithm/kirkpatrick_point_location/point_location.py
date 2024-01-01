@@ -173,7 +173,9 @@ class Kirkpatrick:
     def query_with_show(self, point: (float, float)):
         vis = Visualizer()
         t = self.query(point)
-        vis.add_polygon([(t.pt1.x, t.pt1.y), (t.pt2.x, t.pt2.y), (t.pt3.x, t.pt3.y)], color="yellow")
+        if t is not None:
+            vis.add_polygon([(t.pt1.x, t.pt1.y), (t.pt2.x, t.pt2.y), (t.pt3.x, t.pt3.y)], color="yellow")
+        
         vis.add_point(point, zorder=10)
         for t in self.__triangles_list:
             vis.add_polygon([(t.pt1.x, t.pt1.y), (t.pt2.x, t.pt2.y), (t.pt3.x, t.pt3.y)], fill=False, color="blue")

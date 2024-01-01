@@ -4,7 +4,8 @@ Algorytm wymaga preprocessingu w czasie $\mathcal{O}(n \log{}n)$ <br>
 Następnie każde zapytanie dla przygotowanego wielokąta realizowane jest w casie $\mathcal{O}(\log{}n)$
 <br>
 <br>
-Biblioteka składa się z pakietu `visualizer`, który wykorzystywany jest przez bibliotekę do wizualizacji działania algorytmu i wyniku lokalizacji. Właściwa biblioteka znajduje sie w pakiecie `kirkpatrick_point_location`, zbiera ona funkcje potrzebne do działania algorytmu w przyjazny interfejs.
+Biblioteka składa się z pakietu `visualizer`, który wykorzystywany jest przez bibliotekę do wizualizacji działania algorytmu i wyniku lokalizacji. Właściwa biblioteka znajduje sie w pakiecie `kirkpatrick_point_location`, zbiera ona funkcje potrzebne do działania algorytmu w przyjazny interfejs. W pakietach można znaleźć 
+Notebook jupytera pokazujący działanie poszczególnych etapów działania algorytmu.
 <br>
 <br>
 Do triangulacji początkowej figury użyto triangulacji Delaunaya, a następnie do triangulacji "dziur" powstałych przez usunięcie zbioru niezależnych wierzchołków użyto algorytmu earcut.
@@ -55,14 +56,19 @@ Kolejnym potrzebnym krokiem jest wywołanie funkcji przetwarzającej wielokąt. 
 kirkpatrick.preprocess()
 ```
 Samą lokalizację punktu wywołujemy przez funkcję `query`, która przyjmuje krotkę ze współrzędnymi punktu do lokalizacji, a zwraca obiekt `Triangle` z biblioteki `planegeometry` jako zlokalizowany
-trójkąt.
+trójkąt. Gdy punkt znajduje się poza zewnętrznym trójkątem, funkcja zwraca None.
 ```py
-found_triangle = kirkpatrick.query((3, 5.5))
+found_triangle = kirkpatrick.query((3, 5))
 ```
 Listę wszystkich trójkątów można otrzymać funkcją `get_triangles()`.
 ```py
 all_triangles = kirkpatrick.get_triangles()
 ```
+Można też skorzystać z funkcji `query_with_show`, która lokalizuje punkt oraz rysuje wszystkie trójkąty oraz zlokalizowany trójkąt.
+```py
+kirkpatrick.query_with_show((3, 5))
+```
+![Wizualizacja generowana przez powyższy kod](query_example.png)
 
 # Żródła
 https://ics.uci.edu/~goodrich/teach/geom/notes/Kirkpatrick.pdf
