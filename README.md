@@ -18,7 +18,7 @@ Najpierw sklonuj repozytorium będąc w folderze do którego chcesz je sklonowa�
 git clone https://github.com/lkwinta/Kirkpatrick-Algorithm.git
 ```
 
-Pobierz Anacondę, odpal Anaconda Prompt i przejdź do folderu Algorytmy-Geometryczne, tam stwórz środowisko:
+Pobierz Anacondę, odpal Anaconda Prompt i przejdź do folderu Kirkpatrick-Algorithm, tam stwórz środowisko:
 
 ```
 conda create --name kirkpatrick python=3.9
