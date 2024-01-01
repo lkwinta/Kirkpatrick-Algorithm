@@ -31,3 +31,4 @@ W celu uniknięcia błędów wziązanych ze ścieżkami do różnych wersji inte
 # Opis działania algorytmu
 
 # Żródła
+https://ics.uci.edu/~goodrich/teach/geom/notes/Kirkpatrick.pdf
