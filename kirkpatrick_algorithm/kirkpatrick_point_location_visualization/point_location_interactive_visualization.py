@@ -1,7 +1,7 @@
 import tkinter as tk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from kirkpatrick_algorithm.kirkpatrick_point_location_with_visualization.point_location_visualization import KirkpatrickVisualization
+from kirkpatrick_algorithm.kirkpatrick_point_location_visualization.point_location_visualization import KirkpatrickVisualization
 
 class KirkpatrickInteractiveVisualization:
     def __init__(self, polygon = None, point = None):
