@@ -83,3 +83,25 @@ class Plot:
         anim = Plot.__build_gif(plot_data, data, interval)
         anim.save(filename=f'{filename}.gif', writer='pillow')
         plt.close()
+
+    @staticmethod
+    def get_fig(plot_data, data):
+        fig, ax = plt.subplots()
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+
+        if 'title' in plot_data:
+            ax.set_title(plot_data['title'])
+        if 'grid' in plot_data:
+            ax.grid()
+
+        for figure in data:
+            if not figure.to_be_removed:
+                figure.draw(ax)
+
+        if 'axis_equal' in plot_data:
+            ax.axis('equal')
+        else:
+            ax.autoscale()
+
+        return fig, ax
