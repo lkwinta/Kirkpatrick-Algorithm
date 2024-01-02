@@ -40,8 +40,14 @@ conda activate kirkpatrick
 
 W celu uniknięcia błędów wziązanych ze ścieżkami do różnych wersji interpreterów pythona sugerujemy korzystanie z Linuxa, a na Windowsie zainstalowanie WSL-a i właśnie w nim uruchamianie wszystkich komend.
 
+W razie problemów z brakiem biblioteki `tkinter` przy rysowaniu można skorzystać z polecenia
+```
+sudo apt-get install python3-tk
+```
+
 # Korzystanie z biblioteki
 
+## Główna biblioteka
 Aby użyć biblioteki należy ją zaimportować w poniższy sposób:
 ```py
 from kirkpatrick_algorithm.kirkpatrick_point_location.point_location import Kirkpatrick
@@ -70,5 +76,44 @@ kirkpatrick.query_with_show((3, 5))
 ```
 ![Wizualizacja generowana przez powyższy kod](images/query_example.png#center)
 
+## Biblioteka z wizualizacją
+W pakiecie `kirkpatrick_point_location_visualization` znajduje się biblioteka pozwalająca generować obazki pokazujące kolejne kroki działania algorytmu.<br>
+Bibliotekę należy zaimportować w następujący sposób
+```py
+from kirkpatrick_algorithm.kirkpatrick_point_location_visualization.point_location_visualization import KirkpatrickVisualization
+from kirkpatrick_algorithm.kirkpatrick_point_location_visualization.point_location_interactive_visualization import KierkpatrickInteractiveVisualization
+```
+Podobnie jak w głownej bibliotece należy zainicjalizować obiekt biblioteczny
+```py
+polygon = [(5,5), (3,4), (6,3), (4,2), (6,0), (7,1), (8,4)]
+kirkpatrick_vis = KirkpatrickVisualization(polygon)
+```
+Później należy uruchomić przetwarzanie wielokąta
+```py
+kirkpatrick_vis.preprocess()
+```
+
+Aby zadać punkt do sprawdzenia można użyć funkcję `query`. Podobnie jak w zwykłej bibliotece zwraca ona obiekt typu `Triangle`:
+```py
+_ = kirkpatrick_vis.query((5,4))
+```
+
+Następnie aby wyświetlić kroki przetwarzania można skorzystać z funkcji 
+`show_prep`. 
+```py
+kirkpatrick_vis.show_prep()
+```
+
+A aby wyswietlic kolejne kroki lokalizacji mozna skorzystac z 
+```py
+kirkpatrick_vis.show_query()
+```
+
+A z kolei wywyołanie poniższej instrukcji otworzy interaktywną wizualizację w której można samemu zadać wielokąt i punkt do sprawdzenia oraz przewijać kolejne kroki algorytmu 
+```py
+KirkpatrickInteractiveVisualization()
+```
+
 # Żródła
-https://ics.uci.edu/~goodrich/teach/geom/notes/Kirkpatrick.pdf
+https://ics.uci.edu/~goodrich/teach/geom/notes/Kirkpatrick.pdf<br>
+https://github.com/rkaneriya/point-location
