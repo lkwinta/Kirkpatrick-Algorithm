@@ -69,7 +69,7 @@ class Kirkpatrick:
         shift = (d - a)/2
         H = d*np.sqrt(3)/2
 
-        return [(max_x + shift, min_y),(min_x - shift, min_y), ((max_x - min_x)/2 + min_x, H)]
+        return [(max_x + shift, min_y),(min_x - shift, min_y), ((max_x - min_x)/2 + min_x, min_y + H)]
     
     def __get_planar_map(self, delaunay: Delaunay) -> PlanarMap:
         """
