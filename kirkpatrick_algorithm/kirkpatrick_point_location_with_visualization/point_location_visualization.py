@@ -1,12 +1,11 @@
-from scipy.spatial import Delaunay,delaunay_plot_2d
+from scipy.spatial import Delaunay
 from planegeometry.structures.planarmaps import PlanarMap, Point, Segment, Triangle
-from collections import deque
 from typing import List
 import mapbox_earcut as earcut
 import numpy as np
 from kirkpatrick_algorithm.visualizer.main import Visualizer
 
-class Kirkpatrick_with_vis: 
+class KirkpatrickVisualization: 
     def __init__(self, polygon: List[tuple[float, float]]):
         self.__original_polygon = polygon
 
