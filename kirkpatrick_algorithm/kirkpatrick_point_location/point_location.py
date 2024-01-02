@@ -57,12 +57,15 @@ class Kirkpatrick:
         a = (max_x - min_x)
         b = (max_y - min_y)
 
-        min_x -= a*0.2
-        max_x += a*0.2
-        min_y -= b*0.2
-        max_y += b*0.2
+        min_x -= a*0.4
+        max_x += a*0.4
+        min_y -= b*0.4
+        max_y += b*0.4
 
-        sqrt_d = np.sqrt(4*a*a - 4*(a*a - 4/3*b*b))
+        a = (max_x - min_x)
+        b = (max_y - min_y)
+
+        sqrt_d = np.sqrt(4/3*b*b)
 
         d = (2*a + sqrt_d)/2
 
