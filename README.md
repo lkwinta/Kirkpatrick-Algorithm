@@ -21,7 +21,7 @@ git clone https://github.com/lkwinta/Kirkpatrick-Algorithm.git
 Pobierz Anacondę, odpal Anaconda Prompt i przejdź do folderu Kirkpatrick-Algorithm, tam stwórz środowisko:
 
 ```
-conda create --name kirkpatrick python=3.9
+conda create --name kirkpatrick --file kirkpatrick.txt
 conda activate kirkpatrick
 ```
 
