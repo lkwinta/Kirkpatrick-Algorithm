@@ -9,13 +9,13 @@ class Kirkpatrick:
     def __init__(self, polygon: List[tuple[float, float]]):
         """
             Konstruktor klasy Kirkpatrick. Inicjalizuje wszystkie pola potrzebne do działania biblioteki.
-            Dodaje zewnętrzny trójkąt, następnie wykonuje triangulację Delaunaya, a na końcu konwertuje
+            Dodaje zewnętrzny trójkąt, następnie wykonuje triangulację Delaunaya, a na końcu konwertuje striangulowany
             wielokąt do postaci listy sąsiedztwa.
 
             Parmeters
             ---------
                 polygon: `List[tuple[float, float]]`
-                    lista krotek oznaczających współrzędne kolejnych punktów wielokąta
+                    lista krotek oznaczających współrzędne kolejnych punktów chmury punktów
         """
         self.__original_polygon = polygon
 
@@ -37,12 +37,12 @@ class Kirkpatrick:
     
     def __add_outer_triangle(self, polygon: List[tuple[float, float]]) -> List[tuple[float, float]]:
         """
-            Oblicza współrzędne wierzchołków trójkąta zawierającego wszystkie punkty wielokąta
+            Oblicza współrzędne wierzchołków trójkąta zawierającego wszystkie punkty chmury punktów
 
             Parameters
             ----------
                 polygon: `List[tuple[float, float]]`
-                    lista krotek oznaczających współrzędne kolejnych punktów wielokąta
+                    lista krotek oznaczających współrzędne kolejnych punktów
 
             Returns
             -------
@@ -120,7 +120,7 @@ class Kirkpatrick:
         independent_set = []
 
         for point in self.__polygon_planar_map.iterpoints():
-            if point not in visited and point not in self.__outer_triangle:
+            if point not in visited and point not in self.__outer_triangle and self.__polygon_planar_map.degree(point) < 9:
                 independent_set.append(point)
                 
                 for adjacent_point in self.__polygon_planar_map.iteradjacent(point):
@@ -286,7 +286,7 @@ class Kirkpatrick:
 
         return current
     
-    def query_with_show(self, point: (float, float)):
+    def query_with_show(self, point: (float, float), draw_point=True):
         """
         Przeszukuje drzewo trójkątów, i rysuje wynik zawierający:
             - przeszukiwany punkt 
@@ -311,7 +311,9 @@ class Kirkpatrick:
         if t is not None:
             vis.add_polygon([(t.pt1.x, t.pt1.y), (t.pt2.x, t.pt2.y), (t.pt3.x, t.pt3.y)], color="yellow")
         
-        vis.add_point(point, zorder=10)
+        if draw_point:
+            vis.add_point(point, zorder=10)
+
         for t in self.__triangles_list:
             vis.add_polygon([(t.pt1.x, t.pt1.y), (t.pt2.x, t.pt2.y), (t.pt3.x, t.pt3.y)], fill=False, color="blue")
 

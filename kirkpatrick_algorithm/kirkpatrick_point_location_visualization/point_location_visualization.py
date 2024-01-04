@@ -83,7 +83,7 @@ class KirkpatrickVisualization:
         independent_set = []
 
         for point in self.__polygon_planar_map.iterpoints():
-            if point not in visited and point not in self.__outer_triangle:
+            if point not in visited and point not in self.__outer_triangle and self.__polygon_planar_map.degree(point) < 9:
                 independent_set.append(point)
                 
                 for adjacent_point in self.__polygon_planar_map.iteradjacent(point):
